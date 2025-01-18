@@ -1,4 +1,7 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import AddFrom from "../../ExtraComponents/ReusableForm";
+import * as Yup from "yup";
 const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
@@ -6,6 +9,42 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const formik = useFormik({
+        initialValues: {
+            username: "",
+            password: "",
+        },
+        validationSchema: Yup.object({
+            username: Yup.string().required("Username is required"),
+            password: Yup.string().required("Password is required"),
+        }),
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+
+    const fields = [
+        {
+            name: "username",
+            label: "User Name",
+            type: "text",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
+        },
+        {
+            name: "password",
+            label: "Password",
+            type: "password",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
+        },
+
+    ];
+
+
     return (
         <div className="container">
             <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -20,8 +59,7 @@ const Login = () => {
                                     <img src="assets/img/logo.png" alt="" />
                                     <span className="d-none d-lg-block">NiceAdmin</span>
                                 </a>
-                            </div>
-                            {/* End Logo */}
+                            </div> 
                             <div className="card mb-3">
                                 <div className="card-body">
                                     <div className="pt-4 pb-2">
@@ -33,55 +71,17 @@ const Login = () => {
                                         </p>
                                     </div>
                                     <div className="row g-3">
-                                        <div className="col-12">
-                                            <label htmlFor="yourUsername" className="form-label">
-                                                Username
-                                            </label>
-                                            <div className="input-group has-validation">
-                                                <span className="input-group-text" id="inputGroupPrepend">
-                                                    @
-                                                </span>
-                                                <input
-                                                    type="text"
-                                                    name="username"
-                                                    className="form-control"
-                                                    id="yourUsername"
-                                                    required=""
-                                                />
-                                                <div className="invalid-feedback">
-                                                    Please enter your username.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <label htmlFor="yourPassword" className="form-label">
-                                                Password
-                                            </label>
-                                            <div className="input-group">
-                                                <input
-                                                    type={showPassword ? "text" : "password"}
-                                                    name="password"
-                                                    className="form-control"
-                                                    id="yourPassword"
-                                                    required
-                                                />
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-outline-secondary"
-                                                    onClick={togglePasswordVisibility}
-                                                    style={{ borderLeft: "none" }}
-                                                >
-                                                    {showPassword ? (
-                                                        <i className="bi bi-eye-slash"></i> // Bootstrap icon for hidden
-                                                    ) : (
-                                                        <i className="bi bi-eye"></i> // Bootstrap icon for visible
-                                                    )}
-                                                </button>
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Please enter your password!
-                                            </div>
-                                        </div>
+                                        <AddFrom
+                                            fields={fields.filter(
+                                                (fields) => !fields.showWhen || fields.showWhen(formik.values)
+                                            )}
+                                            page_title="Add Employee" 
+                                            hide_cancle_btn={true}
+                                            hide_submit_btn={true}
+                                          
+                                            formik={formik}
+
+                                        />
                                         <div className="col-12">
                                             <button className="btn btn-primary w-100" type="submit">
                                                 Login

@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ReusableForm = ({
-  fieldtype,
+  fields,
   formik,
   btn_name,
   title,
   additional_field,
   closeBtn,
+  hide_submit_btn,
+  hide_cancle_btn
 }) => {
   const location = useLocation();
   const [passwordVisible, setPasswordVisible] = useState({});
@@ -38,6 +40,8 @@ const ReusableForm = ({
     }
   };
 
+
+  console.log("fields", fields);
   return (
     <form onSubmit={formik.handleSubmit}>
       <div
@@ -48,7 +52,7 @@ const ReusableForm = ({
         }}
       >
         <div className={`row`}>
-          {fieldtype.map((field, index) => (
+          {fields?.map((field, index) => (
             <>
               {field.type === "text" ? (
                 <>
@@ -175,11 +179,10 @@ const ReusableForm = ({
                           className="form-control"
                         />
                         <i
-                          className={`fa-solid ${
-                            passwordVisible[field.name]
-                              ? "fa-eye-slash"
-                              : "fa-eye"
-                          }`}
+                          className={`fa-solid ${passwordVisible[field.name]
+                            ? "fa-eye-slash"
+                            : "fa-eye"
+                            }`}
                           style={{
                             position: "absolute",
                             top: "1.5px",
@@ -207,9 +210,8 @@ const ReusableForm = ({
               ) : field.type === "select" ? (
                 <>
                   <div
-                    className={`col-lg-${
-                      title === "update_theme" ? 12 : field.col_size
-                    }`}
+                    className={`col-lg-${title === "update_theme" ? 12 : field.col_size
+                      }`}
                   >
                     <div className=" row">
                       <label
@@ -358,7 +360,7 @@ const ReusableForm = ({
                         value={field.value2}
                         className={
                           formik.touched[field.name] &&
-                          formik.errors[field.name]
+                            formik.errors[field.name]
                             ? "form-check-input error-field"
                             : " form-check-input"
                         }
@@ -459,22 +461,24 @@ const ReusableForm = ({
         </div>
         {additional_field}
         <div className="modal-footer mt-4 mb-0">
-          <button
-            type="button"
-            className="btn btn-outline-secondary rounded  "
-            onClick={closeBtn}
-          >
-            <i className="fa fa-xmark"></i> Cancel
-          </button>
-          <button
-            className={`btn btn-pink rounded  ${
-              location.pathname === "resetpassword" ? "col-md-11" : ""
-            }`}
+          {
+            hide_cancle_btn ? "" : <button
+              type="button"
+              className="btn btn-outline-secondary rounded  "
+              onClick={closeBtn}
+            >
+              <i className="fa fa-xmark"></i> Cancel
+            </button>
+          }
+
+          {hide_submit_btn ? "" : <button
+            className={`btn btn-pink rounded  ${location.pathname === "resetpassword" ? "col-md-11" : ""
+              }`}
             type="submit"
             disabled={formik.isSubmitting}
           >
             <i className="far fa-save"></i> {btn_name}
-          </button>
+          </button>}
         </div>
       </div>
     </form>
