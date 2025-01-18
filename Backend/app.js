@@ -17,5 +17,5 @@ require('./App/Routes')(app);
 console.log('process.env.PORT', process.env.PORT);
 server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
-    // mongooseConnection();
+     
 });
