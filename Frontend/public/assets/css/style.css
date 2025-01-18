@@ -1231,3 +1231,11 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+.error-text {
+  color: red !important;
+  font-size: 13px;
+  padding: 0px 3px;
+  margin-top: 1px;
+}
+

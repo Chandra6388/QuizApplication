@@ -1,5 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import AddFrom from "../../ExtraComponents/ReusableForm";
+import * as Yup from "yup";
 const Login = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            username: "",
+            password: "",
+        },
+        validationSchema: Yup.object({
+            username: Yup.string().required("Username is required"),
+            password: Yup.string().required("Password is required"),
+        }),
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+
+    const fields = [
+        {
+            name: "username",
+            label: "User Name",
+            type: "text",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
+        },
+        {
+            name: "password",
+            label: "Password",
+            type: "password",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
+        },
+
+    ];
+
+
     return (
         <div className="container">
             <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -14,8 +59,7 @@ const Login = () => {
                                     <img src="assets/img/logo.png" alt="" />
                                     <span className="d-none d-lg-block">NiceAdmin</span>
                                 </a>
-                            </div>
-                            {/* End Logo */}
+                            </div> 
                             <div className="card mb-3">
                                 <div className="card-body">
                                     <div className="pt-4 pb-2">
@@ -26,56 +70,18 @@ const Login = () => {
                                             Enter your username &amp; password to login
                                         </p>
                                     </div>
-                                    <form className="row g-3 needs-validation" noValidate="">
-                                        <div className="col-12">
-                                            <label htmlFor="yourUsername" className="form-label">
-                                                Username
-                                            </label>
-                                            <div className="input-group has-validation">
-                                                <span className="input-group-text" id="inputGroupPrepend">
-                                                    @
-                                                </span>
-                                                <input
-                                                    type="text"
-                                                    name="username"
-                                                    className="form-control"
-                                                    id="yourUsername"
-                                                    required=""
-                                                />
-                                                <div className="invalid-feedback">
-                                                    Please enter your username.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <label htmlFor="yourPassword" className="form-label">
-                                                Password
-                                            </label>
-                                            <input
-                                                type="password"
-                                                name="password"
-                                                className="form-control"
-                                                id="yourPassword"
-                                                required=""
-                                            />
-                                            <div className="invalid-feedback">
-                                                Please enter your password!
-                                            </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    name="remember"
-                                                    defaultValue="true"
-                                                    id="rememberMe"
-                                                />
-                                                <label className="form-check-label" htmlFor="rememberMe">
-                                                    Remember me
-                                                </label>
-                                            </div>
-                                        </div>
+                                    <div className="row g-3">
+                                        <AddFrom
+                                            fields={fields.filter(
+                                                (fields) => !fields.showWhen || fields.showWhen(formik.values)
+                                            )}
+                                            page_title="Add Employee" 
+                                            hide_cancle_btn={true}
+                                            hide_submit_btn={true}
+                                          
+                                            formik={formik}
+
+                                        />
                                         <div className="col-12">
                                             <button className="btn btn-primary w-100" type="submit">
                                                 Login
@@ -87,15 +93,8 @@ const Login = () => {
                                                 <a href="pages-register.html">Create an account</a>
                                             </p>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="credits">
-                                {/* All the links in the footer should remain intact. */}
-                                {/* You can delete the links only if you purchased the pro version. */}
-                                {/* Licensing information: https://bootstrapmade.com/license/ */}
-                                {/* Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ */}
-                                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                             </div>
                         </div>
                     </div>
