@@ -1,5 +1,11 @@
-import React from "react";
+import React , {useState} from "react";
 const Login = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         <div className="container">
             <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -26,7 +32,7 @@ const Login = () => {
                                             Enter your username &amp; password to login
                                         </p>
                                     </div>
-                                    <form className="row g-3 needs-validation" noValidate="">
+                                    <div className="row g-3">
                                         <div className="col-12">
                                             <label htmlFor="yourUsername" className="form-label">
                                                 Username
@@ -51,29 +57,29 @@ const Login = () => {
                                             <label htmlFor="yourPassword" className="form-label">
                                                 Password
                                             </label>
-                                            <input
-                                                type="password"
-                                                name="password"
-                                                className="form-control"
-                                                id="yourPassword"
-                                                required=""
-                                            />
+                                            <div className="input-group">
+                                                <input
+                                                    type={showPassword ? "text" : "password"}
+                                                    name="password"
+                                                    className="form-control"
+                                                    id="yourPassword"
+                                                    required
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-secondary"
+                                                    onClick={togglePasswordVisibility}
+                                                    style={{ borderLeft: "none" }}
+                                                >
+                                                    {showPassword ? (
+                                                        <i className="bi bi-eye-slash"></i> // Bootstrap icon for hidden
+                                                    ) : (
+                                                        <i className="bi bi-eye"></i> // Bootstrap icon for visible
+                                                    )}
+                                                </button>
+                                            </div>
                                             <div className="invalid-feedback">
                                                 Please enter your password!
-                                            </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    name="remember"
-                                                    defaultValue="true"
-                                                    id="rememberMe"
-                                                />
-                                                <label className="form-check-label" htmlFor="rememberMe">
-                                                    Remember me
-                                                </label>
                                             </div>
                                         </div>
                                         <div className="col-12">
@@ -87,15 +93,8 @@ const Login = () => {
                                                 <a href="pages-register.html">Create an account</a>
                                             </p>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="credits">
-                                {/* All the links in the footer should remain intact. */}
-                                {/* You can delete the links only if you purchased the pro version. */}
-                                {/* Licensing information: https://bootstrapmade.com/license/ */}
-                                {/* Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ */}
-                                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                             </div>
                         </div>
                     </div>
