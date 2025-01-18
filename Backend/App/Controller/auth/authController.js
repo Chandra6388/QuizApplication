@@ -8,6 +8,7 @@ const User = db.user;
  
 
 
+
 // Login CLASS
 class Auth {
 
