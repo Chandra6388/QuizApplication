@@ -6,11 +6,7 @@ const jwt = require("jsonwebtoken");
 const db = require('../../Modals');
 const User = db.user;
  
-
-
-
-
-
+ 
 // Login CLASS
 class Auth {
 
