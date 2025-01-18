@@ -3,6 +3,9 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 
 import Login from '../Layouts/Auth/Login'; 
+import SideBaar from '../Components/SideBar';
+import AdminRouting from './AdminRoutes';
+import UserRouting from './UserRoutes';
 
 
 
@@ -10,7 +13,7 @@ const Routing = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    const roles = JSON.parse(localStorage.getItem('user_role'));
+    const roles =  localStorage.getItem('user_role');
     const user_details = JSON.parse(localStorage.getItem("user_details"));
 
 
@@ -19,11 +22,11 @@ const Routing = () => {
             navigate("/register");
             return;
         } 
-        if (!user_details || !roles || user_details === "null" || roles === "null" || location.pathname === "/login") {
-            console.log("Redirecting to login");
-            navigate("/login");
-            return;
-        }
+        // if (!user_details || !roles || user_details === "null" || roles === "null" || location.pathname === "/login") {
+        //     console.log("Redirecting to login");
+        //     navigate("/login");
+        //     return;
+        // }
 
         switch (roles) {
             case "ADMIN":
@@ -61,9 +64,14 @@ const Routing = () => {
         }
     }, [navigate, location.pathname, roles, user_details]);
 
+
+    console.log("Roles: ", roles=="ADMIN");
     return (
         <Routes>   
+            <Route path="/admin/*" element={(roles=="ADMIN" ? <AdminRouting/> : <Login />)} />
+            <Route path="/user/*" element={(roles=="USER" ? <UserRouting/> : <Login />)} />
             <Route path="/login" element={<Login />} />
+
         </Routes>
     );
 }
