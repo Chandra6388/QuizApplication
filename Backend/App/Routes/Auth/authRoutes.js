@@ -1,15 +1,7 @@
-
-"use strict"
-
 const router = require("express").Router()
-// const {verifyToken}= require('../../Middlewares/autt.middleware')
+const { login} = require('../../Controller/auth/authController')
 
-// const { login,verifyUser,logoutUser,ForgetPassword,ResetPassword,UpdatePassword , SignUpUser} = require('../../Controllers/Auth/Auth.controller')
-
-
-
- 
-
+router.post("/login", login);
 
 
 module.exports = router;

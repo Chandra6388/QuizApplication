@@ -16,19 +16,7 @@ class Auth {
     async login(req, res) {
         console.log(req.body);
     }
-
-
-  
-
-
-
-   
-
-
-  
-
  
-
 
 }
 
