@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
  
-const db = require('../../Models');
+const db = require('../../Modals');
 const SignUpUser = db.SignUpUser;
 const User = db.user;
  
