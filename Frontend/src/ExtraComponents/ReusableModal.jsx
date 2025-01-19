@@ -10,6 +10,9 @@ const ReusableModal = ({ show, onClose, title, body, footer,  modalsize}) => {
         <Modal.Title>
           <i style={{ marginRight: "8px" }} /> 
           {title}
+
+
+          
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{body}</Modal.Body>
