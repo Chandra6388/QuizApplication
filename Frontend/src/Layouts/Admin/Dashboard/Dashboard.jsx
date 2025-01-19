@@ -198,7 +198,7 @@ const Dashboard = () => {
               </div>
               <div className="card-body">
                 <h5 className="card-title">
-                  Recent Sales <span>| Today</span>
+                  New Register student <span>| Today</span>
                 </h5>
                 <table className="table table-borderless datatable">
                   <thead>
@@ -322,7 +322,7 @@ const Dashboard = () => {
               </div>
               <div className="card-body pb-0">
                 <h5 className="card-title">
-                  Top Selling <span>| Today</span>
+                Leaderboard <span>| Today</span>
                 </h5>
                 <table className="table table-borderless">
                   <thead>
