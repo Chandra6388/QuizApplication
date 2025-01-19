@@ -24,7 +24,7 @@ const Routing = () => {
             return;
         } 
         if (!user_details || !roles || user_details === "null" || roles === "null" || location.pathname === "/login") {
-            console.log("cpp");
+            
             navigate("/login");
             return;
         }
