@@ -13,7 +13,7 @@ const Routing = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    const roles =  JSON.parse(localStorage.getItem("user")).role;
+    const roles =  JSON.parse(localStorage.getItem("user"))?.role;
     const user_details = JSON.parse(localStorage.getItem("user"));
 
 

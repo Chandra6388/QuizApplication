@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AllQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
+import { AllQuestion , AddQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
 import { useDispatch } from 'react-redux';
 import Datatable from '../../../ExtraComponents/ReusableTable1';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,8 @@ import ReusableModal from '../../../ExtraComponents/ReusableModal';
 import AddFrom from '../../../ExtraComponents/ReusableForm';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import swal from "sweetalert2";
+
 
 const Question = () => {
     const dispatch = useDispatch();
@@ -89,12 +91,10 @@ const Question = () => {
             subject: "",
             chapter: "",
             difficulty: "",
-            option: {
-                option1: "",
-                option2: "",
-                option3: "",
-                option4: "",
-            },
+            option1: "",
+            option2: "",
+            option3: "",
+            option4: "",
             correctOption: "",
             explanation: "",
 
@@ -104,14 +104,13 @@ const Question = () => {
             questionType: Yup.string().required("Please select question type"),
             subject: Yup.string().required("Please select subject"),
             difficulty: Yup.string().required("Please enter difficulty"),
-            option: Yup.object().shape({
-                option1: Yup.string().required("Please enter option 1"),
-                option2: Yup.string().required("Please enter option 2"),
-                option3: Yup.string().required("Please enter option 3"),
-                option4: Yup.string().required("Please enter option 4"),
-            }),
+            option1: Yup.string().required("Please enter option 1"),
+            option2: Yup.string().required("Please enter option 2"),
+            option3: Yup.string().required("Please enter option 3"),
+            option4: Yup.string().required("Please enter option 4"),
             correctOption: Yup.string().required("Please select correct option"),
             explanation: Yup.string().required("Please enter explanation"),
+
 
         }),
         onSubmit: async (values) => {
@@ -121,20 +120,43 @@ const Question = () => {
                 subject: values.subject,
                 chapter: values.chapter,
                 difficulty: values.difficulty,
-                option1: values.option.option1,
-                option2: values.option.option2,
-                option3: values.option.option3,
-                option4: values.option.option4,
+                option1: values.option1,
+                option2: values.option2,
+                option3: values.option3,
+                option4: values.option4,
                 correctOption: values.correctOption,
                 explanation: values.explanation,
             }
-            console.log("req", req);
-
-
-
+            await dispatch(AddQuestion(req)).unwrap()
+                .then((res) => {
+                    if (res.status) {
+                        swal.fire({
+                            icon: "success",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then(() => {
+                            getAllQuestions();
+                            setShowModal(false);
+                            formik.resetForm();
+                        });
+                    }
+                    else {
+                        swal.fire({
+                            icon: "error",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                })
         },
     });
 
+    console.log("formik", formik.errors);
     const fields = [
         {
             name: "question",
@@ -149,9 +171,9 @@ const Question = () => {
             label: "Question Type",
             type: "select",
             options: [
-                { value: "MCQ", label: "MCQ" },
-                { value: "True/False", label: "True/False" },
-                { value: "MSQ", label: "MSQ" },
+                { value: 1, label: "MCQ" },
+                { value: 2, label: "True/False" },
+                { value: 3, label: "MSQ" },
             ],
             label_size: 12,
             col_size: 6,
@@ -196,7 +218,12 @@ const Question = () => {
         {
             name: "difficulty",
             label: "Difficulty",
-            type: "text",
+            type: "select",
+            options: [
+                { value: "easy", label: "Easy" },
+                { value: "medium", label: "Medium" },
+                { value: "hard", label: "Hard" },
+            ],
             label_size: 12,
             col_size: 6,
             disable: false,
@@ -257,9 +284,6 @@ const Question = () => {
             disable: false,
         }
 
-
-
-
     ];
 
     return (
@@ -313,7 +337,7 @@ const Question = () => {
                 footer={
                     <>
                         <button className='btn btn-outline-secondary' onClick={handleCloseModal}>Cancel</button>
-                        <button className='btn btn-pink' onClick={formik.handleSubmit}>Apply</button>
+                        <button className='btn btn-primary' onClick={formik.handleSubmit}>Apply</button>
                     </>
                 }
             />

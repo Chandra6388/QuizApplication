@@ -17,4 +17,18 @@ export async function All_Question(data, token) {
 
 }
 
+export async function Add_Question(data, token) {
+    try {
+        const res = await axios.post(`${Config.base_url}addQuestion`, data, {
+            data: {},
+        })
+        return await res?.data;
+    }
+    catch (err) {
+        return await err;
+
+    }
+
+}
+
  
