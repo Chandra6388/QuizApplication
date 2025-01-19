@@ -13,20 +13,21 @@ const Routing = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    const roles =  localStorage.getItem('user_role');
-    const user_details = JSON.parse(localStorage.getItem("user_details"));
+    const roles =  JSON.parse(localStorage.getItem("user")).role;
+    const user_details = JSON.parse(localStorage.getItem("user"));
 
 
+   
     useEffect(() => {
         if (location.pathname === "/register") {
             navigate("/register");
             return;
         } 
-        // if (!user_details || !roles || user_details === "null" || roles === "null" || location.pathname === "/login") {
-        //     console.log("Redirecting to login");
-        //     navigate("/login");
-        //     return;
-        // }
+        if (!user_details || !roles || user_details === "null" || roles === "null" || location.pathname === "/login") {
+            console.log("cpp");
+            navigate("/login");
+            return;
+        }
 
         switch (roles) {
             case "ADMIN":
@@ -64,8 +65,7 @@ const Routing = () => {
         }
     }, [navigate, location.pathname, roles, user_details]);
 
-
-    console.log("Roles: ", roles=="ADMIN");
+ 
     return (
         <Routes>   
             <Route path="/admin/*" element={(roles=="ADMIN" ? <AdminRouting/> : <Login />)} />

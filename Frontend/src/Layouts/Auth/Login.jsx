@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import AddFrom from "../../ExtraComponents/ReusableForm";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../ReduxStore/Slice/Auth/AuthSlice";
 const Login = () => {
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
+ 
     const formik = useFormik({
         initialValues: {
             username: "",
@@ -19,8 +21,39 @@ const Login = () => {
             username: Yup.string().required("Username is required"),
             password: Yup.string().required("Password is required"),
         }),
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async (values) => {
+            const req = {
+                username: values.username,
+                password: values.password,
+            }
+
+            await dispatch(login(req)).unwrap()
+                .then((res) => {
+                    if (res.status) {
+                        localStorage.setItem("token", res.token);
+                        localStorage.setItem("user", JSON.stringify(res.data));
+                        Swal.fire({
+                            icon: "success",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then(() => {
+                            navigate("/admin/dashboard");
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: "error",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                })
+
         },
     });
 
@@ -59,7 +92,7 @@ const Login = () => {
                                     <img src="assets/img/logo.png" alt="" />
                                     <span className="d-none d-lg-block">NiceAdmin</span>
                                 </a>
-                            </div> 
+                            </div>
                             <div className="card mb-3">
                                 <div className="card-body">
                                     <div className="pt-4 pb-2">
@@ -75,15 +108,14 @@ const Login = () => {
                                             fields={fields.filter(
                                                 (fields) => !fields.showWhen || fields.showWhen(formik.values)
                                             )}
-                                            page_title="Add Employee" 
+                                            page_title="Add Employee"
                                             hide_cancle_btn={true}
                                             hide_submit_btn={true}
-                                          
                                             formik={formik}
 
                                         />
                                         <div className="col-12">
-                                            <button className="btn btn-primary w-100" type="submit">
+                                            <button className="btn btn-primary w-100" onClick={formik.handleSubmit}>
                                                 Login
                                             </button>
                                         </div>

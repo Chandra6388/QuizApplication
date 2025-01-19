@@ -40,8 +40,7 @@ const ReusableForm = ({
     }
   };
 
-
-  console.log("fields", fields);
+ 
   return (
     <form onSubmit={formik.handleSubmit}>
       <div
