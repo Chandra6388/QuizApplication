@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { Login} from "../../../Service/Admin/Quize.service";
+import { All_Question} from "../../../Service/Admin/Quize.service";
 
 
 
-export const login = createAsyncThunk("login", async (data) => {
+export const AllQuestion = createAsyncThunk("login", async (data) => {
 
   try {
-    const res = await Login(data);
+    const res = await All_Question(data);
     return await res;
   } catch (err) {
     return err;
@@ -20,25 +20,23 @@ const QuizeSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    login : [], 
-     
+    allquestion : [], 
   },
 
   reducers: {},  
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state, action) => {
+      .addCase(AllQuestion.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(AllQuestion.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.login = action.payload;
+        state.allquestion = action.payload;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(AllQuestion.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
       })
-      
   },
    
 });

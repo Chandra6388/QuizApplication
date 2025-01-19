@@ -1,24 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { login } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
+import { AllQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
 import { useDispatch } from 'react-redux';
 import Datatable from '../../../ExtraComponents/ReusableTable1';
 import { useNavigate } from 'react-router-dom';
 import { PenLine, Trash2 } from 'lucide-react';
 import sweatalert from "sweetalert2";
 import ReusableModal from '../../../ExtraComponents/ReusableModal';
-import AddFrom from '../../../ExtraComponents/ReusableForm';    
+import AddFrom from '../../../ExtraComponents/ReusableForm';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const AllQuize = () => {
+const Question = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const token = localStorage.getItem("token");
-    const [questions, setQuestions] = useState([]);
+    const [allQuestions, setAllQuestions] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
     const handleCloseModal = () => {
         setShowModal(false);
+    }
+
+    useEffect(() => {
+        getAllQuestions();
+    }, []);
+
+
+    const getAllQuestions = async () => {
+        await dispatch(AllQuestion()).unwrap()
+            .then((response) => {
+                if (response.status) {
+                    setAllQuestions(response.data);
+                } else {
+                    sweatalert.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.msg,
+                    });
+                    setAllQuestions([]);
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
     }
 
 
@@ -32,7 +54,7 @@ const AllQuize = () => {
         },
         {
             name: "Question Text",
-            selector: (row) => row.questionText,
+            selector: (row) => row.question,
             sortable: true,
         },
         {
@@ -45,14 +67,10 @@ const AllQuize = () => {
             selector: (row) => row.difficulty,
             sortable: true,
         },
-        {
-            name: "Quiz Associated",
-            selector: (row) => row.quizAssociated,
-            sortable: true,
-        },
+
         {
             name: "Type",
-            selector: (row) => row.type,
+            selector: (row) => row.questionType === 1 ? "MCQ" : row.questionType === 2 ? "True/False" : "MSQ",
             sortable: true,
         },
         {
@@ -64,92 +82,55 @@ const AllQuize = () => {
 
     ];
 
-    const data = [
-        {
-            id: 1,
-            questionID: "1",
-            questionText: "What is the capital of India?",
-            subject: "Geography",
-            difficulty: "Easy",
-            quizAssociated: "General Knowledge",
-            type: "MCQ",
-        },
-        {
-            id: 2,
-            questionID: "2",
-            questionText: "What is the capital of USA?",
-            subject: "Geography",
-            difficulty: "Easy",
-            quizAssociated: "General Knowledge",
-            type: "MCQ",
-        },
-        {
-            id: 3,
-            questionID: "3",
-            questionText: "What is the capital of UK?",
-            subject: "Geography",
-            difficulty: "Easy",
-            quizAssociated: "General Knowledge",
-            type: "MCQ",
-        },
-        {
-            id: 4,
-            questionID: "4",
-            questionText: "What is the capital of Australia?",
-            subject: "Geography",
-            difficulty: "Easy",
-            quizAssociated: "General Knowledge",
-            type: "MCQ",
-        },
-        {
-            id: 5,
-            questionID: "5",
-            questionText: "What is the capital of Japan?",
-            subject: "Geography",
-            difficulty: "Easy",
-            quizAssociated: "General Knowledge",
-            type: "MCQ",
-        }
-    ]
-
     const formik = useFormik({
         initialValues: {
             question: "",
             questionType: "",
             subject: "",
-            difficulty: "", 
-            option : {
+            chapter: "",
+            difficulty: "",
+            option: {
                 option1: "",
                 option2: "",
                 option3: "",
                 option4: "",
-            }
+            },
+            correctOption: "",
+            explanation: "",
+
         },
         validationSchema: Yup.object({
-            question: Yup.string().required("Question is required"),
-            questionType: Yup.string().required("Question Type is required"),
-            subject: Yup.string().required("Subject is required"),
-            difficulty: Yup.string().required("Difficulty is required"),
-            option1: Yup.string().required("Option 1 is required"),
-            option2: Yup.string().required("Option 2 is required"),
-            option3: Yup.string().required("Option 3 is required"),
-            option4: Yup.string().required("Option 4 is required"),
+            question: Yup.string().required("Please enter question"),
+            questionType: Yup.string().required("Please select question type"),
+            subject: Yup.string().required("Please select subject"),
+            difficulty: Yup.string().required("Please enter difficulty"),
+            option: Yup.object().shape({
+                option1: Yup.string().required("Please enter option 1"),
+                option2: Yup.string().required("Please enter option 2"),
+                option3: Yup.string().required("Please enter option 3"),
+                option4: Yup.string().required("Please enter option 4"),
+            }),
+            correctOption: Yup.string().required("Please select correct option"),
+            explanation: Yup.string().required("Please enter explanation"),
+
         }),
         onSubmit: async (values) => {
             const req = {
-                question: values?.question,
-                questionType: values?.questionType,
-                subject: values?.subject,
-                difficulty: values?.difficulty,
-               opetion : {
-                     option1: values?.option?.option1,
-                     option2: values?.option?.option2,
-                     option3: values?.option?.option3,
-                     option4: values?.option?.option4,
-                }
+                question: values.question,
+                questionType: values.questionType,
+                subject: values.subject,
+                chapter: values.chapter,
+                difficulty: values.difficulty,
+                option1: values.option.option1,
+                option2: values.option.option2,
+                option3: values.option.option3,
+                option4: values.option.option4,
+                correctOption: values.correctOption,
+                explanation: values.explanation,
             }
+            console.log("req", req);
 
-            
+
 
         },
     });
@@ -166,7 +147,7 @@ const AllQuize = () => {
         {
             name: "questionType",
             label: "Question Type",
-            type: "select", 
+            type: "select",
             options: [
                 { value: "MCQ", label: "MCQ" },
                 { value: "True/False", label: "True/False" },
@@ -268,16 +249,16 @@ const AllQuize = () => {
             disable: false,
         },
         {
-            name : "explanation",
-            label : "Explanation",
-            type : "textarea",
-            label_size : 12,
-            col_size : 12,
-            disable : false,
+            name: "explanation",
+            label: "Explanation",
+            type: "textarea",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
         }
 
-        
-        
+
+
 
     ];
 
@@ -301,7 +282,7 @@ const AllQuize = () => {
                     < div className='expandable-table'>
                         <Datatable
                             columns={columns}
-                            data={data}
+                            data={allQuestions}
                             filter={false}
                         />
                     </div>
@@ -332,7 +313,7 @@ const AllQuize = () => {
                 footer={
                     <>
                         <button className='btn btn-outline-secondary' onClick={handleCloseModal}>Cancel</button>
-                        <button className='btn btn-pink' onClick={() => getAllService()}>Apply</button>
+                        <button className='btn btn-pink' onClick={formik.handleSubmit}>Apply</button>
                     </>
                 }
             />
@@ -341,4 +322,4 @@ const AllQuize = () => {
     );
 };
 
-export default AllQuize;
+export default Question;

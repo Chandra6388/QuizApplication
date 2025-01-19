@@ -3,9 +3,9 @@ import * as Config from "../../Utils/Config";
 
 
 // LOGIN-USER
-export async function Login(data, token) {
+export async function All_Question(data, token) {
     try {
-        const res = await axios.post(`${Config.base_url}login`, data, {
+        const res = await axios.post(`${Config.base_url}getAllQuestions`, data, {
             data: {},
         })
         return await res?.data;
