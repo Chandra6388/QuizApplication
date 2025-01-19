@@ -40,7 +40,7 @@ const ReusableForm = ({
     }
   };
 
- 
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <div
@@ -66,6 +66,40 @@ const ReusableForm = ({
                       </label>
                       <div>
                         <input
+                          type="text"
+                          className="form-control"
+                          style={{ background: field.disable ? "#eeeeee" : "" }}
+                          id={field.name}
+                          placeholder={`Enter ${field.label}`}
+                          {...formik.getFieldProps(field.name)}
+                          readOnly={field.disable}
+                        />
+                        <div className="invalid-feedback">
+                          Please enter {field.label}
+                        </div>
+                        {formik.touched[field.name] &&
+                          formik.errors[field.name] && (
+                            <div className="error-text">
+                              {formik.errors[field.name]}
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : field.type === "textarea" ? (
+                <>
+                  <div className={`col-lg-${field.col_size}`}>
+                    <div className="mb-3 row flex-column">
+                      <label
+                        className={`col-lg-${field.label_size}`}
+                        htmlFor={field.name}
+                      >
+                        {field.label}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <div>
+                        <textarea
                           type="text"
                           className="form-control"
                           style={{ background: field.disable ? "#eeeeee" : "" }}
