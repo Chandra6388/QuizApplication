@@ -20,4 +20,11 @@ const ReusableModal = ({ show, onClose, title, body, footer,  modalsize}) => {
   );
 };
 
+
+
+
+
+
+
+
 export default ReusableModal;
