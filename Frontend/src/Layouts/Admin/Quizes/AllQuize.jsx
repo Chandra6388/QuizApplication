@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AllQuestion , AddQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
+import { AllQuestion , AddQuestion , deleteQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
 import { useDispatch } from 'react-redux';
 import Datatable from '../../../ExtraComponents/ReusableTable1';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +47,35 @@ const Question = () => {
     }
 
 
+    const handleDeleteQuestion = async (row) => {
+        const req = {id : row._id}
+        await dispatch(deleteQuestion(req)).unwrap()
+            .then((res) => {
+                if (res.status) {
+                    swal.fire({
+                        icon: "success",
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then(() => {
+                        getAllQuestions();
+                    });
+                }
+                else {
+                    swal.fire({
+                        icon: "error",
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("err", err);
+            })
+
+    }
+
 
 
     const columns = [
@@ -79,8 +108,8 @@ const Question = () => {
         {
             name: "Actions",
             selector: (row) => <>
-            <PenLine/>
-            <Trash2/>
+            <PenLine />
+            <Trash2 onClick={()=>handleDeleteQuestion(row)}/>
             
             </>,
             sortable: true,

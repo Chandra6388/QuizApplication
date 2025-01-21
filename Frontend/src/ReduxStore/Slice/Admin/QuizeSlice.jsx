@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { All_Question, Add_Question } from "../../../Service/Admin/Quize.service";
+import { All_Question, Add_Question , delete_Question } from "../../../Service/Admin/Quize.service";
 
 
 
@@ -24,6 +24,17 @@ export const AddQuestion = createAsyncThunk("addQuestion", async (data) => {
   }
 });
 
+export const deleteQuestion = createAsyncThunk("deleteQuestionByID", async (data) => {
+
+  try {
+    const res = await delete_Question(data);
+    return await res;
+  } catch (err) {
+    return err;
+  }
+});
+
+
 
 const QuizeSlice = createSlice({
   name: "QuizeSlice",
@@ -31,7 +42,8 @@ const QuizeSlice = createSlice({
     isLoading: false,
     isError: false,
     allquestion: [],
-    addquestion: []
+    addquestion: [],
+    deletequestion: [],
   },
 
   reducers: {},
@@ -59,6 +71,17 @@ const QuizeSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       })
+      .addCase(deleteQuestion.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteQuestion.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.deletequestion = action.payload;
+      })
+      .addCase(deleteQuestion.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
   },
 
 });

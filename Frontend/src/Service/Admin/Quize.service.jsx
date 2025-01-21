@@ -31,4 +31,18 @@ export async function Add_Question(data, token) {
 
 }
 
+export async function delete_Question(data, token) {
+    try {
+        const res = await axios.post(`${Config.base_url}deleteQuestionByID`, data, {
+            data: {},
+        })
+        return await res?.data;
+    }
+    catch (err) {
+        return await err;
+
+    }
+
+}
+
  
