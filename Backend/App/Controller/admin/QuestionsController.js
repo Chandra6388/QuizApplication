@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require('../../Modals');
 const Question = db.question;
-
+const { ObjectId } = require('mongodb');
 
 // Login CLASS
 class Questions {
@@ -33,7 +33,7 @@ class Questions {
         if (!question || !questionType || !subject || !chapter || !difficulty || !option1 || !option2 || !option3 || !option4 || !correctOption || !explanation) {
             return res.send({ status: false, msg: "All fields are required", data: [] });
         }
- 
+
         const newQuestion = new Question({
             questionID,
             question,
@@ -60,7 +60,7 @@ class Questions {
     }
 
     // get all questions
-    async getAllQuestions(req, res){
+    async getAllQuestions(req, res) {
         await Question.find()
             .then((data) => {
                 return res.send({ status: true, msg: "All questions", data: data });
@@ -72,7 +72,7 @@ class Questions {
     }
 
     // get question by ID
-    async getQuestionByID(req, res){
+    async getQuestionByID(req, res) {
         const { questionID } = req.body;
 
         if (!questionID) {
@@ -88,7 +88,40 @@ class Questions {
                 return res.send({ status: false, msg: "Something went wrong", data: [] });
             });
     }
+
+    // delete question by ID
+    async deleteQuestionByID(req, res) {
+        const { id } = req.body;
+
+        try{
+            if (!id) {
+                return res.send({ status: false, msg: "ID is required", data: [] });
+            }
+    
+            const checkQuestion =   await Question.findOne({ _id: id });
+            if(!checkQuestion){
+                return res.send({ status: false, msg: "Question not found", data: [] });
+            }
+    
+            await Question.deleteOne({ _id: id })
+                .then((data) => {
+                    return res.send({ status: true, msg: "Question deleted successfully", data: data });
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    return res.send({ status: false, msg: "Something went wrong", data: [] });
+                });
+
+        }
+        catch(err){
+            console.log("err", err);
+            return res.send({ status: false, msg: "Something went wrong", data: [] });
+        }
+
+    }
 }
+
+ 
 
 
 module.exports = new Questions();

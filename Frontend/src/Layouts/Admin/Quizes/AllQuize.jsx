@@ -78,7 +78,11 @@ const Question = () => {
         },
         {
             name: "Actions",
-            selector: (row) => row.id,
+            selector: (row) => <>
+            <PenLine/>
+            <Trash2/>
+            
+            </>,
             sortable: true,
         },
 
@@ -156,8 +160,7 @@ const Question = () => {
                 })
         },
     });
-
-    console.log("formik", formik.errors);
+ 
     const fields = [
         {
             name: "question",
