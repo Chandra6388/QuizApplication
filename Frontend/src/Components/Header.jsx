@@ -253,20 +253,16 @@ const Header = () => {
                                     <hr className="dropdown-divider" />
                                 </li>
                                 <li>
-                                    <a className="dropdown-item d-flex align-items-center" href="#">
+                                    <div className="dropdown-item d-flex align-items-center" onClick={() => { localStorage.clear(); window.location.href = "/login" }}>
                                         <i className="bi bi-box-arrow-right" />
                                         <span>Sign Out</span>
-                                    </a>
+                                    </div>
                                 </li>
                             </ul>
-                            {/* End Profile Dropdown Items */}
                         </li>
-                        {/* End Profile Nav */}
                     </ul>
                 </nav>
-                {/* End Icons Navigation */}
             </header>
-            {/* End Header */}
         </>
 
     );

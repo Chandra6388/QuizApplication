@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 
-import Login from '../Layouts/Auth/Login'; 
-import SideBaar from '../Components/SideBar';
+import Login from '../Layouts/Auth/Login';  
 import AdminRouting from './AdminRoutes';
 import UserRouting from './UserRoutes';
+import Resister from '../Layouts/Auth/Resister';
+
 
 
 
@@ -71,6 +72,7 @@ const Routing = () => {
             <Route path="/admin/*" element={(roles=="ADMIN" ? <AdminRouting/> : <Login />)} />
             <Route path="/user/*" element={(roles=="USER" ? <UserRouting/> : <Login />)} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Resister />} />
 
         </Routes>
     );
