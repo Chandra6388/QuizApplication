@@ -32,11 +32,12 @@ const Resister = () => {
         }),
         onSubmit: async (values) => {
             const req = {
-                fullName: values.fullName,
-                userName: values.userName,
+                fullname: values.fullName,
+                username: values.userName,
                 email: values.email,
                 phone: values.phone,
                 password: values.password,
+                
             }
 
             await dispatch(resisterNewStudent(req)).unwrap()
@@ -50,7 +51,7 @@ const Resister = () => {
                             showConfirmButton: false,
                             timer: 1500,
                         }).then(() => {
-                            navigate("/admin/dashboard");
+                            navigate("/login");
                         });
                     }
                     else {

@@ -14,7 +14,7 @@ export const login = createAsyncThunk("login", async (data) => {
   }
 });
 
-export const resisterNewStudent = createAsyncThunk("resister", async (data) => {
+export const resisterNewStudent = createAsyncThunk("register", async (data) => {
 
   try {
     const res = await resister_NewStudent(data);

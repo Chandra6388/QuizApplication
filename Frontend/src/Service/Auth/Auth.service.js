@@ -19,7 +19,7 @@ export async function Login(data, token) {
 
 export async function resister_NewStudent(data, token) {
     try {
-        const res = await axios.post(`${Config.base_url}resister`, data, {
+        const res = await axios.post(`${Config.base_url}register`, data, {
             data: {},
         })
         return await res?.data;
