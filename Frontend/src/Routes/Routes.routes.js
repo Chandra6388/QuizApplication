@@ -70,7 +70,7 @@ const Routing = () => {
     return (
         <Routes>   
             <Route path="/admin/*" element={(roles=="ADMIN" ? <AdminRouting/> : <Login />)} />
-            <Route path="/user/*" element={(roles=="USER" ? <UserRouting/> : <Login />)} />
+            <Route path="/student/*" element={(roles=="USER" ? <UserRouting/> : <Login />)} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Resister />} />
 
