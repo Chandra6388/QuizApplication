@@ -1,6 +1,100 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getLastFiveStudentsResistered } from "../../../ReduxStore/Slice/Admin/DashbordSlice";
+import Datatable from "../../../ExtraComponents/ReusableTable1";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    getLastFiveStudents();
+  }, []);
+
+
+  const getLastFiveStudents = async () => {
+    const req = {}
+    await dispatch(getLastFiveStudentsResistered(req)).unwrap()
+      .then((res) => {
+        if (res.status) {
+          setStudents(res.data);
+        }
+        else {
+          setStudents([]);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      })
+  }
+
+
+  const columns = [
+    {
+      name: "User Name",
+      selector: (row) => <div title={row?.username || ""}>
+        {row.username || ""}
+      </div>,
+      sortable: true,
+      width: '15%',
+    },
+    {
+      name: "Full Name",
+      selector: (row) => <div title={row?.fullname || ""}>
+        {row.fullname || ""}
+      </div>,
+      sortable: true,
+      width: '20%',
+    },
+    {
+      name: "Email",
+      selector: (row) => <div title={row?.email || ""}>
+        {row.email || ""}
+      </div>,
+      sortable: true,
+      width: '20%',
+    },
+    {
+      name: "Phone",
+      selector: (row) => <div title={row?.phone || ""}>
+        {row.phone || ""}
+      </div>,
+      sortable: true,
+      width: '15%',
+    },
+
+    {
+      name: "Status",
+      selector: (row) => <div title={row?.status || ""}>
+        {row.status || ""}
+      </div>,
+      sortable: true,
+      width: '15%',
+    },
+    {
+      name: "Last Login",
+      selector: (row) => <div title={row?.lastLogin || ""}>
+        {row.lastLogin || ""}
+      </div>,
+      sortable: true,
+      width: '15%',
+    },
+    {
+      name: "Created At",
+      selector: (row) => <div title={row?.createdAt || ""}>
+        {row.createdAt || ""}
+      </div>,
+      sortable: true,
+      width: '15%',
+    },
+
+
+
+
+
+
+  ];
+
   return (
     <>
 
@@ -20,39 +114,15 @@ const Dashboard = () => {
           <div className="col-lg-8">
             <div className="row">
               <div className="col-xxl-4 col-md-6">
-                <div className="card info-card sales-card">
-                  <div className="filter">
-                    <a className="icon" href="#" data-bs-toggle="dropdown">
-                      <i className="bi bi-three-dots" />
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                      <li className="dropdown-header text-start">
-                        <h6>Filter</h6>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Today
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          This Month
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          This Year
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="card info-card  customers-card">
+                  
                   <div className="card-body">
                     <h5 className="card-title">
-                      Sales <span>| Today</span>
+                      Total Students
                     </h5>
                     <div className="d-flex align-items-center">
                       <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i className="bi bi-cart" />
+                        <i className="bi bi-people" />
                       </div>
                       <div className="ps-3">
                         <h6>145</h6>
@@ -64,87 +134,15 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              {/* End Sales Card */}
-              {/* Revenue Card */}
-              <div className="col-xxl-4 col-md-6">
-                <div className="card info-card revenue-card">
-                  <div className="filter">
-                    <a className="icon" href="#" data-bs-toggle="dropdown">
-                      <i className="bi bi-three-dots" />
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                      <li className="dropdown-header text-start">
-                        <h6>Filter</h6>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Today
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          This Month
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          This Year
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      Revenue <span>| This Month</span>
-                    </h5>
-                    <div className="d-flex align-items-center">
-                      <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i className="bi bi-currency-dollar" />
-                      </div>
-                      <div className="ps-3">
-                        <h6>$3,264</h6>
-                        <span className="text-success small pt-1 fw-bold">
-                          8%
-                        </span>{" "}
-                        <span className="text-muted small pt-2 ps-1">increase</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* End Revenue Card */}
-              {/* Customers Card */}
+              </div> 
+             
+               
               <div className="col-xxl-4 col-xl-12">
                 <div className="card info-card customers-card">
-                  <div className="filter">
-                    <a className="icon" href="#" data-bs-toggle="dropdown">
-                      <i className="bi bi-three-dots" />
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                      <li className="dropdown-header text-start">
-                        <h6>Filter</h6>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Today
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          This Month
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          This Year
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  
                   <div className="card-body">
                     <h5 className="card-title">
-                      Customers <span>| This Year</span>
+                      Total Teachers
                     </h5>
                     <div className="d-flex align-items-center">
                       <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -161,11 +159,29 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              {/* End Customers Card */}
-              {/* Reports */}
+              <div className="col-xxl-4 col-xl-12">
+                <div className="card info-card customers-card">
+                  
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      Total Staffs
+                    </h5>
+                    <div className="d-flex align-items-center">
+                      <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i className="bi bi-people" />
+                      </div>
+                      <div className="ps-3">
+                        <h6>1244</h6>
+                        <span className="text-danger small pt-1 fw-bold">
+                          12%
+                        </span>{" "}
+                        <span className="text-muted small pt-2 ps-1">decrease</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              {/* End Reports */}
-              {/* Recent Sales */}
               <div className="col-12">
                 <div className="card recent-sales overflow-auto">
                   <div className="filter">
@@ -195,96 +211,15 @@ const Dashboard = () => {
                   </div>
                   <div className="card-body">
                     <h5 className="card-title">
-                      New Register student <span>| Today</span>
+                      New Register student
                     </h5>
-                    <table className="table table-borderless datatable">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Customer</th>
-                          <th scope="col">Product</th>
-                          <th scope="col">Price</th>
-                          <th scope="col">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">
-                            <a href="#">#2457</a>
-                          </th>
-                          <td>Brandon Jacob</td>
-                          <td>
-                            <a href="#" className="text-primary">
-                              At praesentium minu
-                            </a>
-                          </td>
-                          <td>$64</td>
-                          <td>
-                            <span className="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <a href="#">#2147</a>
-                          </th>
-                          <td>Bridie Kessler</td>
-                          <td>
-                            <a href="#" className="text-primary">
-                              Blanditiis dolor omnis similique
-                            </a>
-                          </td>
-                          <td>$47</td>
-                          <td>
-                            <span className="badge bg-warning">Pending</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <a href="#">#2049</a>
-                          </th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" className="text-primary">
-                              At recusandae consectetur
-                            </a>
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span className="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <a href="#">#2644</a>
-                          </th>
-                          <td>Angus Grady</td>
-                          <td>
-                            <a href="#" className="text-primar">
-                              Ut voluptatem id earum et
-                            </a>
-                          </td>
-                          <td>$67</td>
-                          <td>
-                            <span className="badge bg-danger">Rejected</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <a href="#">#2644</a>
-                          </th>
-                          <td>Raheem Lehner</td>
-                          <td>
-                            <a href="#" className="text-primary">
-                              Sunt similique distinctio
-                            </a>
-                          </td>
-                          <td>$165</td>
-                          <td>
-                            <span className="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <Datatable
+                      columns={columns}
+                      data={students}
+                      filter={false}
+
+                    />
+
                   </div>
                 </div>
               </div>
