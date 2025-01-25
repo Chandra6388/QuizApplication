@@ -42,20 +42,20 @@ const DashboardSlice = createSlice({
   initialState: {
     isLoading: false,
     isError: false,
-    allquestion: [],
+    getdashbordeData: [],
   },
 
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(AllQuestion.pending, (state, action) => {
+      .addCase(getDashbordeData.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(AllQuestion.fulfilled, (state, action) => {
+      .addCase(getDashbordeData.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.allquestion = action.payload;
+        state.getdashbordeData = action.payload;
       })
-      .addCase(AllQuestion.rejected, (state, action) => {
+      .addCase(getDashbordeData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
       })
