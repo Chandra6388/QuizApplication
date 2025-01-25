@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getLastFiveStudentsResistered } from "../../../ReduxStore/Slice/Admin/DashbordSlice";
+import { getLastFiveStudentsResistered , getAllStudents , getDashbordeData } from "../../../ReduxStore/Slice/Admin/DashbordSlice";
 import Datatable from "../../../ExtraComponents/ReusableTable1";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
 
   const [students, setStudents] = useState([]);
+  const [allStudents, setAllStudents] = useState([]);
+  const [dashboardData, setDashboardData] = useState({});
+
   useEffect(() => {
     getLastFiveStudents();
+    AllStudents();
+    DashbordeData();
   }, []);
 
+  console.log("dashboardData", dashboardData);
 
   const getLastFiveStudents = async () => {
     const req = {}
@@ -27,6 +33,40 @@ const Dashboard = () => {
         console.log("err", err);
       })
   }
+
+  const AllStudents = async () => {
+    const req = {}
+    await dispatch(getAllStudents(req)).unwrap()
+      .then((res) => {
+        if (res.status) {
+          setAllStudents(res.data);
+        }
+        else {
+          setAllStudents([]);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      } )
+
+  }
+
+  const DashbordeData = async () => {
+    const req = {}
+    await dispatch(getDashbordeData(req)).unwrap()
+      .then((res) => {
+        if (res.status) {
+          setDashboardData(res.data);
+        }
+        else {
+          setDashboardData([]);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+      } )
+  }
+
 
 
   const columns = [
@@ -125,7 +165,7 @@ const Dashboard = () => {
                         <i className="bi bi-people" />
                       </div>
                       <div className="ps-3">
-                        <h6>145</h6>
+                        <h6>{dashboardData.totalStudents}</h6>
                         <span className="text-success small pt-1 fw-bold">
                           12%
                         </span>{" "}

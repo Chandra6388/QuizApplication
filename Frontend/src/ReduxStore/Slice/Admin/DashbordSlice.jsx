@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { get_LastFive_Students_Resistered} from "../../../Service/Admin/Dashbord.service";
+import { get_LastFive_Students_Resistered , get_allStudents, get_DashbordeData} from "../../../Service/Admin/Dashbord.service";
 
 
 
@@ -8,6 +8,26 @@ export const getLastFiveStudentsResistered = createAsyncThunk("lastfive-student"
 
   try {
     const res = await get_LastFive_Students_Resistered(data);
+    return await res;
+  } catch (err) {
+    return err;
+  }
+});
+
+export const getAllStudents = createAsyncThunk("getAllStudents", async (data) => {
+
+  try {
+    const res = await get_allStudents(data);
+    return await res;
+  } catch (err) {
+    return err;
+  }
+});
+
+export const getDashbordeData = createAsyncThunk("getDashbordeData", async (data) => {
+
+  try {
+    const res = await get_DashbordeData(data);
     return await res;
   } catch (err) {
     return err;
@@ -23,8 +43,6 @@ const DashboardSlice = createSlice({
     isLoading: false,
     isError: false,
     allquestion: [],
-    addquestion: [],
-    deletequestion: [],
   },
 
   reducers: {},
@@ -41,28 +59,7 @@ const DashboardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       })
-      .addCase(AddQuestion.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(AddQuestion.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.addquestion = action.payload;
-      })
-      .addCase(AddQuestion.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-      })
-      .addCase(deleteQuestion.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteQuestion.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.deletequestion = action.payload;
-      })
-      .addCase(deleteQuestion.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-      });
+     
   },
 
 });
