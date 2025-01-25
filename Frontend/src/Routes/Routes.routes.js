@@ -16,7 +16,7 @@ const Routing = () => {
     
     const roles =  JSON.parse(localStorage.getItem("user"))?.role;
     const user_details = JSON.parse(localStorage.getItem("user"));
-
+ 
 
    
     useEffect(() => {
@@ -37,30 +37,11 @@ const Routing = () => {
                 }
                 break;
             case "USER":
-                if (location.pathname === "/login" || location.pathname === "/" || !location.pathname.startsWith("/user")) {
-                    navigate("/user/dashboard");
+                if (location.pathname === "/login" || location.pathname === "/" || !location.pathname.startsWith("/student")) {
+                    navigate("/student/dashboard");
                 }
                 break;
-            case "SUBADMIN":
-                if (location.pathname === "/login" || location.pathname === "/" || !location.pathname.startsWith("/subadmin")) {
-                    navigate("/subadmin/dashboard");
-                }
-                break;
-            case "EMPLOYEE":
-                if (location.pathname === "/login" || location.pathname === "/" || !location.pathname.startsWith("/employee")) {
-                    navigate("/employee/dashboard");
-                }
-                break;
-            case "RESEARCH":
-                if (location.pathname === "/login" || location.pathname === "/" || !location.pathname.startsWith("/research")) {
-                    navigate("/research/dashboard");
-                }
-                break;
-            case "SUPERADMIN":
-                if (location.pathname === "/login" || location.pathname === "/" || !location.pathname.startsWith("/superadmin")) {
-                    navigate("/superadmin/dashboard");
-                }
-                break;
+             
             default:
                 break;
         }

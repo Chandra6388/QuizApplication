@@ -82,7 +82,7 @@ const Resister = () => {
         {
             name: "userName",
             label: "User Name",
-            type: "password",
+            type: "text",
             label_size: 12,
             col_size: 6,
             disable: false,

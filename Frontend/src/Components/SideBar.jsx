@@ -2,60 +2,77 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
+  const Role = JSON.parse(localStorage.getItem("user"))?.role;
+
+  const AdminSideBaarArr = [
+    {
+      name: "Dashboard",
+      icon: "bi bi-grid",
+      link: "/admin/dashboard",
+    },
+    {
+      name: "All Student",
+      icon: "bi bi-journal-text",
+      link: "/admin/all-students",
+    },
+    {
+      name: "All Teacher",
+      icon: "bi bi-journal-text",
+      link: "/admin/all-teachers",
+    },
+    {
+      name: "All Staff",
+      icon: "bi bi-journal-text",
+      link: "/admin/all-staff",
+    },
+    {
+      name: "Quize",
+      icon: "bi bi-journal-text",
+      link: "/admin/all-quizes",
+    },
+  ];
+
+  const UserSideBaarArr = [
+    {
+      name: "Dashboard",
+      icon: "bi bi-grid",
+      link: "/student/dashboard",
+    },
+    {
+      name: "All Quizes",
+      icon: "bi bi-journal-text",
+      link: "/student/all-quizes",
+    },
+  ];
 
   return (
     <>
       <aside id="sidebar" className="sidebar">
         <ul className="sidebar-nav" id="sidebar-nav">
-          <li className="nav-item"
-            style={{ cursor: "pointer" }}
-          >
-            <div className="nav-link " onClick={() => navigate('/admin/dashboard')} >
-              <i className="bi bi-grid" />
-              <span>Dashboard</span>
-            </div>
-          </li>
-          <li className="nav-item">
-            <div
-              className="nav-link"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate('/admin/all-students')}
-            >
-              <i className="bi bi-journal-text" />
-              <span>All Student</span>
-            </div>
-          </li>
-          <li className="nav-item">
-            <div
-              className="nav-link"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate('/admin/all-teachers')}
-            >
-              <i className="bi bi-journal-text" />
-              <span>All Teacher</span>
-            </div>
-          </li>
-          <li className="nav-item">
-            <div
-              className="nav-link"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate('/admin/all-staff')}
-            >
-              <i className="bi bi-journal-text" />
-              <span>All Staff</span>
-            </div>
-          </li>
-          <li className="nav-item">
-            <div
-              className="nav-link"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate('/admin/all-quizes')}
-            >
-              <i className="bi bi-journal-text" />
-              <span>Quize</span>
-            </div>
-          </li>
 
+          {Role == "ADMIN" && AdminSideBaarArr?.map((item, index) => (
+            <li className="nav-item"
+              style={{ cursor: "pointer " }}
+              key={index}
+            >
+              <div className="nav-link " onClick={() => navigate(item.link)} >
+                <i className={item.icon} />
+                <span>{item.name}</span>
+              </div>
+            </li>
+          ))}
+          {Role == "USER" && UserSideBaarArr?.map((item, index) => (
+            <li className="nav-item"
+              style={{ cursor: "pointer " }}
+              key={index}
+            >
+              <div className="nav-link " onClick={() => navigate(item.link)} >
+                <i className={item.icon} />
+                <span>{item.name}</span>
+              </div>
+            </li>
+          ))}
+          
 
         </ul>
       </aside>
