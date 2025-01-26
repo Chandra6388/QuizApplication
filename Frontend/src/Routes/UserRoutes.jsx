@@ -5,6 +5,7 @@ import SideBar from '../Components/SideBar';
 import StudentDashboard from '../Layouts/Student/Dashboard';
 import AllQuize from '../Layouts/Student/Quize';
 import TestSeries from '../Layouts/Student/TestSeries';
+import SubscribedTest from '../Layouts/Student/SubscribedTest'
 
 
 
@@ -19,8 +20,9 @@ const UserRoutes = () => {
                     <div className="admin-main">
                         <Routes>
                             <Route path="/dashboard" element={<StudentDashboard />} />
-                            <Route path="/all-quizes" element={<AllQuize />} />
+                            <Route path="/enrolled-test-series" element={<AllQuize />} />
                             <Route path="/test-series" element={<TestSeries />} />
+                            <Route path="/subscribed-test" element={<SubscribedTest />} />
                         </Routes>
                     </div>
                 </main>

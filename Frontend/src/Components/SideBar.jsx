@@ -39,9 +39,9 @@ const Login = () => {
       link: "/student/dashboard",
     },
     {
-      name: "All Quizes",
+      name: "Enrolled Test Series",
       icon: "bi bi-journal-text",
-      link: "/student/all-quizes",
+      link: "/student/enrolled-test-series",
     },
     {
       name: "Test Series",

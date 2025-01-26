@@ -1,282 +1,190 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Quize = () => {
-    const [activeTab, setActiveTab] = useState("chapter-test");
-    const subjects = [
+const App = () => {
+    const navigate = useNavigate();
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const cards = [
         {
             id: 1,
-            name: "Maths",
-        },
-
-        {
-            id: 3,
-            name: "English",
-        },
-        {
-            id: 5,
-            name: "Physics",
-        },
-        {
-            id: 6,
-            name: "Chemistry",
-        },
-        {
-            id: 7,
-            name: "Biology",
-        },
-        {
-            id: 8,
-            name: "Computer",
-        },
-    ]
-    const [activeTab1, setActiveTab1] = useState("mock");
-    const [activeSubTab, setActiveSubTab] = useState("free");
-
-
-
-    const tests = [
-        {
-            id: 1,
-            type: "PRO",
-            title: "RRB Group D Previous Year Paper (Held on: 17 Aug 2022 Shift 1)",
-            questions: 100,
-            marks: 100,
-            duration: "90 Mins",
-            users: "58.9k",
-            languages: ["English", "Hindi"],
-            isFree: false,
+            students: "774.2k Students",
+            title: "RRB JE (CBT I + CBT II) Mock Test 2024",
+            progress: 1,
+            progressText: "17/2138",
+            img: "/assets/img/indian-railways-logo.png",
         },
         {
             id: 2,
-            type: "FREE",
-            title: "RRB Group D Previous Year Paper (Held on: 1 Sept 2022 Shift 1)",
-            questions: 100,
-            marks: 100,
-            duration: "90 Mins",
-            users: "45.6k",
-            languages: ["English", "Hindi", "3 More"],
-            isFree: true,
+            students: "1527.2k Students",
+            title: "RRB NTPC (CBT 1 + CBT 2) 2024 Mock Test Series",
+            progress: 0,
+            progressText: "0/1285",
+            img: "/assets/img/indian-railways-logo.png",
         },
         {
             id: 3,
-            type: "PRO",
-            title: "RRB Group D Previous Year Paper (Held on: 17 Aug 2022 Shift 2)",
-            questions: 100,
-            marks: 100,
-            duration: "90 Mins",
-            users: "28.9k",
-            languages: ["English", "Hindi"],
-            isFree: false,
+            students: "471.3k Students",
+            title: "General Science for All Railway Exams Previous...",
+            progress: 1,
+            progressText: "3/341",
+            img: "/assets/img/indian-railways-logo.png",
+
         },
+        {
+            id: 4,
+            students: "508.3k Students",
+            title: "RRB Technician Grade 1 Mock Test 2024",
+            progress: 5,
+            progressText: "28/526",
+            img: "/assets/img/indian-railways-logo.png",
+        },
+        {
+            id: 5,
+            students: "774.2k Students",
+            title: "RRB JE (CBT I + CBT II) Mock Test 2024",
+            progress: 1,
+            progressText: "17/2138",
+            img: "/assets/img/indian-railways-logo.png",
+        },
+        {
+            id: 6,
+            students: "774.2k Students",
+            title: "RRB JE (CBT I + CBT II) Mock Test 2024",
+            progress: 1,
+            progressText: "17/2138",
+            img: "/assets/img/indian-railways-logo.png",
+
+        },
+        {
+            id: 7,
+            students: "774.2k Students",
+            title: "RRB JE (CBT I + CBT II) Mock Test 2024",
+            progress: 1,
+            progressText: "17/2138",
+            img: "/assets/img/indian-railways-logo.png",
+        },
+        {
+            id: 8,
+            students: "774.2k Students",
+            title: "RRB JE (CBT I + CBT II) Mock Test 2024",
+            progress: 1,
+            progressText: "17/2138",
+            img: "/assets/img/indian-railways-logo.png",
+
+        }
+
     ];
 
+    const itemsToShow = 4;
+
+    const handlePrev = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - itemsToShow + cards.length) % cards.length);
+    };
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + itemsToShow) % cards.length);
+    };
+
+    const visibleCards = cards.slice(currentIndex, currentIndex + itemsToShow);
+    if (visibleCards.length < itemsToShow) {
+        visibleCards.push(...cards.slice(0, itemsToShow - visibleCards.length));
+    }
 
     return (
-        <>
-            <div className="card top-selling overflow-auto">
-                <div className="card-body pb-0">
-                    <h5 className="card-title">Select Subject</h5>
-                    <div className="row">
-                        {subjects.map((subject) => (
-                            <div className="col-6 col-md-4 col-lg-2" key={subject.id}>
-                                <div
-                                    className="card d-flex align-items-center justify-content-center"
-                                    style={{ height: "50px", padding: "10px", textAlign: "center" }} // Reduced height, centered content
-                                >
-                                    <h5 className="card-title m-0" style={{ fontSize: "16px", lineHeight: "1.2" }}>
-                                        {subject.name}
-                                    </h5>
-                                </div>
+        <div className="container py-5">
+            <div className="d-flex align-items-center">
+                <button className="btn btn-outline-primary me-2" onClick={handlePrev}>
+                    &lt;
+                </button>
+
+                <div className="d-flex" style={{ overflow: "hidden", width: "100%" }}>
+                    {visibleCards.map((card) => (
+                        <div className="card mx-2" key={card.id} style={{ minWidth: "18rem" }}>
+                            <div className="card-header text-center">
+                                <img
+                                    src={card.img}
+                                    style={{ width: "50px" }}
+                                    alt="logo"
+                                    className="img-fluid rounded-circle mb-2"
+                                />
+                                <div>{card.students}</div>
                             </div>
-                        ))}
-
-                        <ul
-                            className="nav nav-tabs nav-tabs-bordered d-flex"
-                            role="tablist"
-                        >
-                            <li className="nav-item flex-fill" role="presentation">
-                                <button
-                                    className={`nav-link  w-100 ${activeTab === "chapter-test" ? "active" : ""}`}
-                                    id="chapter-test-tab"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="chapter-test"
-                                    aria-selected={activeTab === "chapter-test"}
-                                    onClick={() => setActiveTab("chapter-test")}
-                                >
-                                    Chapter Test
-                                </button>
-                            </li>
-                            <li className="nav-item flex-fill" role="presentation">
-                                <button
-                                    className={`nav-link w-100 ${activeTab === "full-test" ? "active" : ""}`}
-                                    id="full-test-tab"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="full-test"
-                                    aria-selected={activeTab === "full-test"}
-                                    onClick={() => setActiveTab("full-test")}
-                                >
-                                    Full Test
-                                </button>
-                            </li>
-                        </ul>
-                        <div className="tab-content pt-2">
-                            <div
-                                className={`tab-pane fade ${activeTab === "chapter-test" ? "show active" : ""}`}
-                                id="chapter-test"
-                                role="tabpanel"
-                                aria-labelledby="chapter-test-tab"
-                            >
-                                <div>
-                                    <h5 className="card-title">Select Chapter</h5>
-                                    <div className="row">
-                                        {subjects.map((subject) => (
-                                            <div className="col-6 col-md-4 col-lg-2" key={subject.id}>
-                                                <div
-                                                    className="card d-flex align-items-center justify-content-center"
-                                                    style={{ height: "50px", padding: "10px", textAlign: "center" }} // Reduced height, centered content
-                                                >
-                                                    <h5 className="card-title m-0" style={{ fontSize: "16px", lineHeight: "1.2" }}>
-                                                        {subject.name}
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
+                            <div className="card-body text-center">
+                                <h6>{card.title}</h6>
+                                <p>{card.progressText}</p>
+                                <div className="progress mb-3">
+                                    <div
+                                        className="progress-bar"
+                                        role="progressbar"
+                                        style={{ width: `${card.progress}%` }}
+                                        aria-valuenow={card.progress}
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                    ></div>
                                 </div>
-
-                            </div>
-                            <div
-                                className={`tab-pane fade ${activeTab === "full-test" ? "show active" : ""}`}
-                                id="full-test"
-                                role="tabpanel"
-                                aria-labelledby="full-test-tab"
-                            >
-                                <div className="container mt-4">
-                                    {/* Tab Headers */}
-                                    <ul className="nav nav-tabs">
-                                        <li className="nav-item">
-                                            <button
-                                                className={`nav-link ${activeTab1 === "mock" ? "active" : ""}`}
-                                                onClick={() => setActiveTab1("mock")}
-                                            >
-                                                Mock Tests
-                                            </button>
-                                        </li>
-                                        <li className="nav-item">
-                                            <button
-                                                className={`nav-link ${activeTab1 === "prev" ? "active" : ""}`}
-                                                onClick={() => setActiveTab1("prev")}
-                                            >
-                                                Prev. Years Papers
-                                            </button>
-                                        </li>
-                                    </ul>
-
-                                    {/* Tab Content */}
-                                    <div className="tab-content mt-3">
-                                        {/* Mock Tests Tab */}
-                                        {activeTab1 === "mock" && (
-                                            <div className="tab-pane fade show active">
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-danger me-2">LIVE TEST</span>
-                                                        <span className="badge bg-success">FREE</span>
-                                                        <h5 className="card-title mt-2">
-                                                            Maths For All Railway Exams: (आत्मविश्वास) Mega Live Test
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>20 Questions</span> • <span>20 Marks</span> •{" "}
-                                                            <span>22 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">
-                                                                English, Hindi • 24 Jan, 9:00 to 26 Jan, 21:00
-                                                            </small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-danger me-2">LIVE TEST</span>
-                                                        <span className="badge bg-success">FREE</span>
-                                                        <h5 className="card-title mt-2">
-                                                            All RRB (Railway) Exams: General Knowledge (सामर्थ्य) Mega Live Test
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>20 Questions</span> • <span>20 Marks</span> •{" "}
-                                                            <span>10 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">
-                                                                English, Hindi • 25 Jan, 9:00 to 27 Jan, 21:00
-                                                            </small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Prev. Years Papers Tab */}
-                                        {activeTab1 === "prev" && (
-                                            <div className="tab-pane fade show active">
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-warning me-2">PRO</span>
-                                                        <span className="badge bg-primary">TCS PYP 2024</span>
-                                                        <h5 className="card-title mt-2">
-                                                            CT 1: Ancient History - Prehistoric Period
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>10 Questions</span> • <span>10 Marks</span> •{" "}
-                                                            <span>6 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">English, Hindi</small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-warning me-2">PRO</span>
-                                                        <span className="badge bg-primary">TCS PYP 2024</span>
-                                                        <h5 className="card-title mt-2">
-                                                            CT 2: Ancient History - Mauryan Empire
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>10 Questions</span> • <span>10 Marks</span> •{" "}
-                                                            <span>6 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">English, Hindi</small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
+                                <button className="btn btn-primary" onClick={()=>navigate("/student/subscribed-test")}>Go To Test Series</button>
                             </div>
                         </div>
+                    ))}
+                </div>
+
+                <button className="btn btn-outline-primary ms-2" onClick={handleNext}>
+                    &gt;
+                </button>
 
 
+
+
+
+            </div>
+
+            <div>
+                <h3>Previous attempt Test</h3>
+                <div className="tab-pane fade show active">
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <span className="badge bg-danger me-2">LIVE TEST</span>
+                            <span className="badge bg-success">FREE</span>
+                            <h5 className="card-title mt-2">
+                                Maths For All Railway Exams: (आत्मविश्वास) Mega Live Test
+                            </h5>
+                            <p className="card-text">
+                                <span>20 Questions</span> • <span>20 Marks</span> •{" "}
+                                <span>22 Mins</span>
+                            </p>
+                            <p className="card-text">
+                                <small className="text-muted">
+                                    English, Hindi • 24 Jan, 9:00 to 26 Jan, 21:00
+                                </small>
+                            </p>
+                            <button className="btn btn-primary">Start Now</button>
+                        </div>
                     </div>
 
-
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <span className="badge bg-danger me-2">LIVE TEST</span>
+                            <span className="badge bg-success">FREE</span>
+                            <h5 className="card-title mt-2">
+                                All RRB (Railway) Exams: General Knowledge (सामर्थ्य) Mega Live Test
+                            </h5>
+                            <p className="card-text">
+                                <span>20 Questions</span> • <span>20 Marks</span> •{" "}
+                                <span>10 Mins</span>
+                            </p>
+                            <p className="card-text">
+                                <small className="text-muted">
+                                    English, Hindi • 25 Jan, 9:00 to 27 Jan, 21:00
+                                </small>
+                            </p>
+                            <button className="btn btn-primary">Start Now</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </>
-
+        </div>
     );
-}
+};
 
-export default Quize;
+export default App;
