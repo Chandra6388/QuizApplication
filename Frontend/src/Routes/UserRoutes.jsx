@@ -4,6 +4,7 @@ import Header from '../Components/Header';
 import SideBar from '../Components/SideBar';
 import StudentDashboard from '../Layouts/Student/Dashboard';
 import AllQuize from '../Layouts/Student/Quize';
+import TestSeries from '../Layouts/Student/TestSeries';
 
 
 
@@ -19,6 +20,7 @@ const UserRoutes = () => {
                         <Routes>
                             <Route path="/dashboard" element={<StudentDashboard />} />
                             <Route path="/all-quizes" element={<AllQuize />} />
+                            <Route path="/test-series" element={<TestSeries />} />
                         </Routes>
                     </div>
                 </main>

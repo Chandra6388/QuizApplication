@@ -43,6 +43,11 @@ const Login = () => {
       icon: "bi bi-journal-text",
       link: "/student/all-quizes",
     },
+    {
+      name: "Test Series",
+      icon: "bi bi-journal-text",
+      link: "/student/test-series"
+    }
   ];
 
   return (
@@ -72,7 +77,7 @@ const Login = () => {
               </div>
             </li>
           ))}
-          
+
 
         </ul>
       </aside>
