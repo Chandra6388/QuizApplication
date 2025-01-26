@@ -77,21 +77,7 @@ const Quize = () => {
         <>
             <div className="card top-selling overflow-auto">
                 <div className="card-body pb-0">
-                    <h5 className="card-title">Select Subject</h5>
                     <div className="row">
-                        {subjects.map((subject) => (
-                            <div className="col-6 col-md-4 col-lg-2" key={subject.id}>
-                                <div
-                                    className="card d-flex align-items-center justify-content-center"
-                                    style={{ height: "50px", padding: "10px", textAlign: "center" }} // Reduced height, centered content
-                                >
-                                    <h5 className="card-title m-0" style={{ fontSize: "16px", lineHeight: "1.2" }}>
-                                        {subject.name}
-                                    </h5>
-                                </div>
-                            </div>
-                        ))}
-
                         <ul
                             className="nav nav-tabs nav-tabs-bordered d-flex"
                             role="tablist"
@@ -145,6 +131,48 @@ const Quize = () => {
                                                 </div>
                                             </div>
                                         ))}
+
+                                        <div className="tab-pane fade show active">
+                                            <div className="card mb-3">
+                                                <div className="card-body">
+                                                    <span className="badge bg-danger me-2">LIVE TEST</span>
+                                                    <span className="badge bg-success">FREE</span>
+                                                    <h5 className="card-title mt-2">
+                                                        Maths For All Railway Exams: (आत्मविश्वास) Mega Live Test
+                                                    </h5>
+                                                    <p className="card-text">
+                                                        <span>20 Questions</span> • <span>20 Marks</span> •{" "}
+                                                        <span>22 Mins</span>
+                                                    </p>
+                                                    <p className="card-text">
+                                                        <small className="text-muted">
+                                                            English, Hindi • 24 Jan, 9:00 to 26 Jan, 21:00
+                                                        </small>
+                                                    </p>
+                                                    <button className="btn btn-primary">Start Now</button>
+                                                </div>
+                                            </div>
+
+                                            <div className="card mb-3">
+                                                <div className="card-body">
+                                                    <span className="badge bg-danger me-2">LIVE TEST</span>
+                                                    <span className="badge bg-success">FREE</span>
+                                                    <h5 className="card-title mt-2">
+                                                        All RRB (Railway) Exams: General Knowledge (सामर्थ्य) Mega Live Test
+                                                    </h5>
+                                                    <p className="card-text">
+                                                        <span>20 Questions</span> • <span>20 Marks</span> •{" "}
+                                                        <span>10 Mins</span>
+                                                    </p>
+                                                    <p className="card-text">
+                                                        <small className="text-muted">
+                                                            English, Hindi • 25 Jan, 9:00 to 27 Jan, 21:00
+                                                        </small>
+                                                    </p>
+                                                    <button className="btn btn-primary">Start Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -156,114 +184,41 @@ const Quize = () => {
                                 role="tabpanel"
                                 aria-labelledby="full-test-tab"
                             >
-                                <div className="container mt-4">
-                                    {/* Tab Headers */}
-                                    <ul className="nav nav-tabs">
-                                        <li className="nav-item">
-                                            <button
-                                                className={`nav-link ${activeTab1 === "mock" ? "active" : ""}`}
-                                                onClick={() => setActiveTab1("mock")}
-                                            >
-                                                Mock Tests
-                                            </button>
-                                        </li>
-                                        <li className="nav-item">
-                                            <button
-                                                className={`nav-link ${activeTab1 === "prev" ? "active" : ""}`}
-                                                onClick={() => setActiveTab1("prev")}
-                                            >
-                                                Prev. Years Papers
-                                            </button>
-                                        </li>
-                                    </ul>
+                                <div className="tab-pane fade show active">
+                                    <div className="card mb-3">
+                                        <div className="card-body">
+                                            <span className="badge bg-warning me-2">PRO</span>
+                                            <span className="badge bg-primary">TCS PYP 2024</span>
+                                            <h5 className="card-title mt-2">
+                                                CT 1: Ancient History - Prehistoric Period
+                                            </h5>
+                                            <p className="card-text">
+                                                <span>10 Questions</span> • <span>10 Marks</span> •{" "}
+                                                <span>6 Mins</span>
+                                            </p>
+                                            <p className="card-text">
+                                                <small className="text-muted">English, Hindi</small>
+                                            </p>
+                                            <button className="btn btn-primary">Start Now</button>
+                                        </div>
+                                    </div>
 
-                                    {/* Tab Content */}
-                                    <div className="tab-content mt-3">
-                                        {/* Mock Tests Tab */}
-                                        {activeTab1 === "mock" && (
-                                            <div className="tab-pane fade show active">
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-danger me-2">LIVE TEST</span>
-                                                        <span className="badge bg-success">FREE</span>
-                                                        <h5 className="card-title mt-2">
-                                                            Maths For All Railway Exams: (आत्मविश्वास) Mega Live Test
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>20 Questions</span> • <span>20 Marks</span> •{" "}
-                                                            <span>22 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">
-                                                                English, Hindi • 24 Jan, 9:00 to 26 Jan, 21:00
-                                                            </small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-danger me-2">LIVE TEST</span>
-                                                        <span className="badge bg-success">FREE</span>
-                                                        <h5 className="card-title mt-2">
-                                                            All RRB (Railway) Exams: General Knowledge (सामर्थ्य) Mega Live Test
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>20 Questions</span> • <span>20 Marks</span> •{" "}
-                                                            <span>10 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">
-                                                                English, Hindi • 25 Jan, 9:00 to 27 Jan, 21:00
-                                                            </small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Prev. Years Papers Tab */}
-                                        {activeTab1 === "prev" && (
-                                            <div className="tab-pane fade show active">
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-warning me-2">PRO</span>
-                                                        <span className="badge bg-primary">TCS PYP 2024</span>
-                                                        <h5 className="card-title mt-2">
-                                                            CT 1: Ancient History - Prehistoric Period
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>10 Questions</span> • <span>10 Marks</span> •{" "}
-                                                            <span>6 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">English, Hindi</small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="card mb-3">
-                                                    <div className="card-body">
-                                                        <span className="badge bg-warning me-2">PRO</span>
-                                                        <span className="badge bg-primary">TCS PYP 2024</span>
-                                                        <h5 className="card-title mt-2">
-                                                            CT 2: Ancient History - Mauryan Empire
-                                                        </h5>
-                                                        <p className="card-text">
-                                                            <span>10 Questions</span> • <span>10 Marks</span> •{" "}
-                                                            <span>6 Mins</span>
-                                                        </p>
-                                                        <p className="card-text">
-                                                            <small className="text-muted">English, Hindi</small>
-                                                        </p>
-                                                        <button className="btn btn-primary">Start Now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
+                                    <div className="card mb-3">
+                                        <div className="card-body">
+                                            <span className="badge bg-warning me-2">PRO</span>
+                                            <span className="badge bg-primary">TCS PYP 2024</span>
+                                            <h5 className="card-title mt-2">
+                                                CT 2: Ancient History - Mauryan Empire
+                                            </h5>
+                                            <p className="card-text">
+                                                <span>10 Questions</span> • <span>10 Marks</span> •{" "}
+                                                <span>6 Mins</span>
+                                            </p>
+                                            <p className="card-text">
+                                                <small className="text-muted">English, Hindi</small>
+                                            </p>
+                                            <button className="btn btn-primary">Start Now</button>
+                                        </div>
                                     </div>
                                 </div>
 
