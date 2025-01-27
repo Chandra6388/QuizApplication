@@ -6,6 +6,8 @@ import StudentDashboard from '../Layouts/Student/Dashboard';
 import AllQuize from '../Layouts/Student/Quize';
 import TestSeries from '../Layouts/Student/TestSeries';
 import SubscribedTest from '../Layouts/Student/SubscribedTest'
+import TestInstruction from '../Layouts/Student/TestInstraction'
+import LiveTest from '../Layouts/Student/LiveTest'
 
 
 
@@ -23,6 +25,8 @@ const UserRoutes = () => {
                             <Route path="/enrolled-test-series" element={<AllQuize />} />
                             <Route path="/test-series" element={<TestSeries />} />
                             <Route path="/subscribed-test" element={<SubscribedTest />} />
+                            <Route path="/test-instruction" element={<TestInstruction />} />
+                            <Route path="/live-test" element={<LiveTest />} />
                         </Routes>
                     </div>
                 </main>

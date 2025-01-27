@@ -31,46 +31,50 @@ const Quize = () => {
             name: "Computer",
         },
     ]
-    const [activeTab1, setActiveTab1] = useState("mock");
-    const [activeSubTab, setActiveSubTab] = useState("free");
 
 
-
-    const tests = [
+    const AllTestArr = [
         {
             id: 1,
-            type: "PRO",
-            title: "RRB Group D Previous Year Paper (Held on: 17 Aug 2022 Shift 1)",
-            questions: 100,
-            marks: 100,
-            duration: "90 Mins",
-            users: "58.9k",
-            languages: ["English", "Hindi"],
-            isFree: false,
+            name: "Maths For All Railway Exams: (आत्मविश्वास) Mega Live Test",
+            question: 20,
+            marks: 20,
+            time: 22,
+            lang: "English, Hindi",
+            date: "24 Jan, 9:00 to 26 Jan, 21:00",
+            badge: ["LIVE TEST", "FREE"],
         },
         {
             id: 2,
-            type: "FREE",
-            title: "RRB Group D Previous Year Paper (Held on: 1 Sept 2022 Shift 1)",
-            questions: 100,
-            marks: 100,
-            duration: "90 Mins",
-            users: "45.6k",
-            languages: ["English", "Hindi", "3 More"],
-            isFree: true,
+            name: "All RRB (Railway) Exams: General Knowledge (सामर्थ्य) Mega Live Test",
+            question: 20,
+            marks: 20,
+            time: 10,
+            lang: "English, Hindi",
+            date: "25 Jan, 9:00 to 27 Jan, 21:00",
+            badge: ["LIVE TEST", "FREE"],
         },
         {
             id: 3,
-            type: "PRO",
-            title: "RRB Group D Previous Year Paper (Held on: 17 Aug 2022 Shift 2)",
-            questions: 100,
-            marks: 100,
-            duration: "90 Mins",
-            users: "28.9k",
-            languages: ["English", "Hindi"],
-            isFree: false,
+            name: "CT 1: Ancient History - Prehistoric Period",
+            question: 10,
+            marks: 10,
+            time: 6,
+            lang: "English, Hindi",
+            badge: ["PRO", "TCS PYP 2024"],
         },
-    ];
+        {
+            id: 4,
+            name: "CT 2: Ancient History - Mauryan Empire",
+            question: 10,
+            marks: 10,
+            time: 6,
+            lang: "English, Hindi",
+            badge: ["PRO", "TCS PYP 2024"],
+        },
+
+
+    ]
 
 
     return (
@@ -131,52 +135,30 @@ const Quize = () => {
                                                 </div>
                                             </div>
                                         ))}
-
                                         <div className="tab-pane fade show active">
-                                            <div className="card mb-3">
-                                                <div className="card-body">
-                                                    <span className="badge bg-danger me-2">LIVE TEST</span>
-                                                    <span className="badge bg-success">FREE</span>
-                                                    <h5 className="card-title mt-2">
-                                                        Maths For All Railway Exams: (आत्मविश्वास) Mega Live Test
-                                                    </h5>
-                                                    <p className="card-text">
-                                                        <span>20 Questions</span> • <span>20 Marks</span> •{" "}
-                                                        <span>22 Mins</span>
-                                                    </p>
-                                                    <p className="card-text">
-                                                        <small className="text-muted">
-                                                            English, Hindi • 24 Jan, 9:00 to 26 Jan, 21:00
-                                                        </small>
-                                                    </p>
-                                                    <button className="btn btn-primary">Start Now</button>
+                                            {AllTestArr.map((test) => (
+                                                <div className="card mb-3" key={test.id}>
+                                                    <div className="card-body">
+                                                        {test.badge.map((badge) => (
+                                                            <span key={badge} className={`badge bg-${badge === "FREE" ? "success" : "danger"} me-2`}>
+                                                                {badge}
+                                                            </span>
+                                                        ))}
+                                                        <h5 className="card-title mt-2">{test.name}</h5>
+                                                        <p className="card-text">
+                                                            <span>{test.question} Questions</span> • <span>{test.marks} Marks</span> •{" "}
+                                                            <span>{test.time} Mins</span>
+                                                        </p>
+                                                        <p className="card-text">
+                                                            <small className="text-muted">{test.lang} • {test.date}</small>
+                                                        </p>
+                                                        <button className="btn btn-primary" onClick={()=>navigate('/student/test-instruction')}>Start Now</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-
-                                            <div className="card mb-3">
-                                                <div className="card-body">
-                                                    <span className="badge bg-danger me-2">LIVE TEST</span>
-                                                    <span className="badge bg-success">FREE</span>
-                                                    <h5 className="card-title mt-2">
-                                                        All RRB (Railway) Exams: General Knowledge (सामर्थ्य) Mega Live Test
-                                                    </h5>
-                                                    <p className="card-text">
-                                                        <span>20 Questions</span> • <span>20 Marks</span> •{" "}
-                                                        <span>10 Mins</span>
-                                                    </p>
-                                                    <p className="card-text">
-                                                        <small className="text-muted">
-                                                            English, Hindi • 25 Jan, 9:00 to 27 Jan, 21:00
-                                                        </small>
-                                                    </p>
-                                                    <button className="btn btn-primary">Start Now</button>
-                                                </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
                             <div
                                 className={`tab-pane fade ${activeTab === "full-test" ? "show active" : ""}`}
@@ -185,54 +167,33 @@ const Quize = () => {
                                 aria-labelledby="full-test-tab"
                             >
                                 <div className="tab-pane fade show active">
-                                    <div className="card mb-3">
-                                        <div className="card-body">
-                                            <span className="badge bg-warning me-2">PRO</span>
-                                            <span className="badge bg-primary">TCS PYP 2024</span>
-                                            <h5 className="card-title mt-2">
-                                                CT 1: Ancient History - Prehistoric Period
-                                            </h5>
-                                            <p className="card-text">
-                                                <span>10 Questions</span> • <span>10 Marks</span> •{" "}
-                                                <span>6 Mins</span>
-                                            </p>
-                                            <p className="card-text">
-                                                <small className="text-muted">English, Hindi</small>
-                                            </p>
-                                            <button className="btn btn-primary">Start Now</button>
+                                    {AllTestArr.map((test) => (
+                                        <div className="card mb-3" key={test.id}>
+                                            <div className="card-body">
+                                                {test.badge.map((badge) => (
+                                                    <span key={badge} className={`badge bg-${badge === "FREE" ? "success" : "danger"} me-2`}>
+                                                        {badge}
+                                                    </span>
+                                                ))}
+                                                <h5 className="card-title mt-2">{test.name}</h5>
+                                                <p className="card-text">
+                                                    <span>{test.question} Questions</span> • <span>{test.marks} Marks</span> •{" "}
+                                                    <span>{test.time} Mins</span>
+                                                </p>
+                                                <p className="card-text">
+                                                    <small className="text-muted">{test.lang} • {test.date}</small>
+                                                </p>
+                                                <button className="btn btn-primary">Start Now</button>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div className="card mb-3">
-                                        <div className="card-body">
-                                            <span className="badge bg-warning me-2">PRO</span>
-                                            <span className="badge bg-primary">TCS PYP 2024</span>
-                                            <h5 className="card-title mt-2">
-                                                CT 2: Ancient History - Mauryan Empire
-                                            </h5>
-                                            <p className="card-text">
-                                                <span>10 Questions</span> • <span>10 Marks</span> •{" "}
-                                                <span>6 Mins</span>
-                                            </p>
-                                            <p className="card-text">
-                                                <small className="text-muted">English, Hindi</small>
-                                            </p>
-                                            <button className="btn btn-primary">Start Now</button>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
-
                             </div>
                         </div>
-
-
                     </div>
-
-
                 </div>
             </div>
         </>
-
     );
 }
 
