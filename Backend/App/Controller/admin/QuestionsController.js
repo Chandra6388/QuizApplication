@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require('../../Modals');
 const Question = db.question;
+const Subject = db.subject;
+const Chapter = db.chapter;
 const { ObjectId } = require('mongodb');
 
 // Login CLASS
@@ -93,16 +95,16 @@ class Questions {
     async deleteQuestionByID(req, res) {
         const { id } = req.body;
 
-        try{
+        try {
             if (!id) {
                 return res.send({ status: false, msg: "ID is required", data: [] });
             }
-    
-            const checkQuestion =   await Question.findOne({ _id: id });
-            if(!checkQuestion){
+
+            const checkQuestion = await Question.findOne({ _id: id });
+            if (!checkQuestion) {
                 return res.send({ status: false, msg: "Question not found", data: [] });
             }
-    
+
             await Question.deleteOne({ _id: id })
                 .then((data) => {
                     return res.send({ status: true, msg: "Question deleted successfully", data: data });
@@ -113,15 +115,88 @@ class Questions {
                 });
 
         }
-        catch(err){
+        catch (err) {
             console.log("err", err);
             return res.send({ status: false, msg: "Something went wrong", data: [] });
         }
 
     }
+
+    // add subject
+    async addSubject(req, res) {
+        const { subjectName } = req.body;
+        try {
+            if (!subjectName) {
+                return res.send({ status: false, msg: "Subject name is required", data: [] });
+            }
+
+            const newSubject = new Subject({
+                subjectName: subjectName
+            })
+
+            newSubject.save()
+                .then((data) => {
+                    return res.send({ status: true, msg: "Subject added successfully", data: data });
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    return res.send({ status: false, msg: "Something went wrong", data: [] });
+                })
+        }
+        catch (err) {
+            console.log("err", err);
+            return res.send({ status: false, msg: "Something went wrong", data: [] });
+        }
+
+    }
+
+    // get all subjects
+    async getAllSubjects(req, res) {
+        try {
+            await Subject.find()
+                .then((data) => {
+                    return res.send({ status: true, msg: "All subjects", data: data });
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    return res.send({ status: false, msg: "Something went wrong", data: [] });
+                });
+        }
+        catch (err) {
+            console.log("err", err);
+            return res.send({ status: false, msg: "Something went wrong", data: [] });
+        }
+    }
+
+    // add Chapter
+    async addChapter(req, res) {
+        const { chapterName, subjectID } = req.body;
+        try {
+            if (!chapterName || !subjectID) {
+                return res.send({ status: false, msg: "All fields are required", data: [] });
+            }
+
+            const newChapter = new Chapter({
+                chapterName: chapterName,
+                subject: subjectID
+            })
+            newChapter.save()
+                .then((data) => {
+                    return res.send({ status: true, msg: "Chapter added successfully", data: data });
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    return res.send({ status: false, msg: "Something went wrong", data: [] });
+                })
+        }
+        catch (err) {
+            console.log("err", err);
+            return res.send({ status: false, msg: "Something went wrong", data: [] });
+        }
+    }
 }
 
- 
+
 
 
 module.exports = new Questions();
