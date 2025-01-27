@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AllQuestion , AddQuestion , deleteQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
+import { AllQuestion, AddQuestion, deleteQuestion } from "../../../ReduxStore/Slice/Admin/QuizeSlice";
 import { useDispatch } from 'react-redux';
 import Datatable from '../../../ExtraComponents/ReusableTable1';
 import { useNavigate } from 'react-router-dom';
@@ -11,15 +11,21 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import swal from "sweetalert2";
 
- 
+
 
 const Question = () => {
     const dispatch = useDispatch();
     const [allQuestions, setAllQuestions] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showSubjectModal, setShowSubjectModal] = useState(false);
+    const [showChaperModal, setShowChapterModal] = useState(false);
 
     const handleCloseModal = () => {
         setShowModal(false);
+    }
+
+    const handleCloseSubjectModal = () => {
+        setShowSubjectModal(false);
     }
 
     useEffect(() => {
@@ -48,7 +54,7 @@ const Question = () => {
 
 
     const handleDeleteQuestion = async (row) => {
-        const req = {id : row._id}
+        const req = { id: row._id }
         await dispatch(deleteQuestion(req)).unwrap()
             .then((res) => {
                 if (res.status) {
@@ -75,8 +81,6 @@ const Question = () => {
             })
 
     }
-
-
 
     const columns = [
         {
@@ -108,9 +112,9 @@ const Question = () => {
         {
             name: "Actions",
             selector: (row) => <>
-            <PenLine />
-            <Trash2 onClick={()=>handleDeleteQuestion(row)}/>
-            
+                <PenLine />
+                <Trash2 onClick={() => handleDeleteQuestion(row)} />
+
             </>,
             sortable: true,
         },
@@ -189,7 +193,151 @@ const Question = () => {
                 })
         },
     });
- 
+
+    const formikSubject = useFormik({
+        initialValues: {
+            question: "",
+            questionType: "",
+            subject: "",
+            chapter: "",
+            difficulty: "",
+            option1: "",
+            option2: "",
+            option3: "",
+            option4: "",
+            correctOption: "",
+            explanation: "",
+
+        },
+        validationSchema: Yup.object({
+            question: Yup.string().required("Please enter question"),
+            questionType: Yup.string().required("Please select question type"),
+            subject: Yup.string().required("Please select subject"),
+            difficulty: Yup.string().required("Please enter difficulty"),
+            option1: Yup.string().required("Please enter option 1"),
+            option2: Yup.string().required("Please enter option 2"),
+            option3: Yup.string().required("Please enter option 3"),
+            option4: Yup.string().required("Please enter option 4"),
+            correctOption: Yup.string().required("Please select correct option"),
+            explanation: Yup.string().required("Please enter explanation"),
+
+
+        }),
+        onSubmit: async (values) => {
+            const req = {
+                question: values.question,
+                questionType: values.questionType,
+                subject: values.subject,
+                chapter: values.chapter,
+                difficulty: values.difficulty,
+                option1: values.option1,
+                option2: values.option2,
+                option3: values.option3,
+                option4: values.option4,
+                correctOption: values.correctOption,
+                explanation: values.explanation,
+            }
+            await dispatch(AddQuestion(req)).unwrap()
+                .then((res) => {
+                    if (res.status) {
+                        swal.fire({
+                            icon: "success",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then(() => {
+                            getAllQuestions();
+                            setShowModal(false);
+                            formikSubject.resetForm();
+                        });
+                    }
+                    else {
+                        swal.fire({
+                            icon: "error",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                })
+        },
+    });
+
+    const formikChapter = useFormik({
+        initialValues: {
+            question: "",
+            questionType: "",
+            subject: "",
+            chapter: "",
+            difficulty: "",
+            option1: "",
+            option2: "",
+            option3: "",
+            option4: "",
+            correctOption: "",
+            explanation: "",
+
+        },
+        validationSchema: Yup.object({
+            question: Yup.string().required("Please enter question"),
+            questionType: Yup.string().required("Please select question type"),
+            subject: Yup.string().required("Please select subject"),
+            difficulty: Yup.string().required("Please enter difficulty"),
+            option1: Yup.string().required("Please enter option 1"),
+            option2: Yup.string().required("Please enter option 2"),
+            option3: Yup.string().required("Please enter option 3"),
+            option4: Yup.string().required("Please enter option 4"),
+            correctOption: Yup.string().required("Please select correct option"),
+            explanation: Yup.string().required("Please enter explanation"),
+
+
+        }),
+        onSubmit: async (values) => {
+            const req = {
+                question: values.question,
+                questionType: values.questionType,
+                subject: values.subject,
+                chapter: values.chapter,
+                difficulty: values.difficulty,
+                option1: values.option1,
+                option2: values.option2,
+                option3: values.option3,
+                option4: values.option4,
+                correctOption: values.correctOption,
+                explanation: values.explanation,
+            }
+            await dispatch(AddQuestion(req)).unwrap()
+                .then((res) => {
+                    if (res.status) {
+                        swal.fire({
+                            icon: "success",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then(() => {
+                            getAllQuestions();
+                            setShowModal(false);
+                            formikChapter.resetForm();
+                        });
+                    }
+                    else {
+                        swal.fire({
+                            icon: "error",
+                            title: res.msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                })
+        },
+    });
+
     const fields = [
         {
             name: "question",
@@ -319,6 +467,44 @@ const Question = () => {
 
     ];
 
+    const fieldsSubject = [
+        {
+            name: "Subject_name",
+            label: "Subject Name",
+            type: "text",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
+
+        }
+
+    ];
+
+    const fieldsChapter = [
+        {
+            name: "Chapter_name",
+            label: "Chapter Name",
+            type: "text",
+            label_size: 12,
+            col_size: 12,
+            disable: false,
+        },
+        {
+            name: "subject",
+            label: "Subject",
+            type: "select",
+            options: [
+                { value: "Geography", label: "Geography" },
+                { value: "History", label: "History" },
+                { value: "Physics", label: "Physics" },
+                { value: "Chemistry", label: "Chemistry" },
+                { value: "Biology", label: "Biology" },
+                { value: "Mathematics", label: "Mathematics" },
+            ],
+        }
+
+
+    ];
     return (
         <div className=''>
             <section className="section dashboard">
@@ -330,10 +516,11 @@ const Question = () => {
 
                         All Question
                     </h4>
-                    <div className='d-flex justify-content-end'>
-                        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-                            Add Question
-                        </button>
+                    <div className='d-flex justify-content-end gap-3'>
+                        <button className='btn btn-primary' onClick={() => setShowSubjectModal(true)}>Add Subject</button>
+                        <button className='btn btn-primary' onClick={() => setShowChapterModal(true)}>Add Chapter</button>
+                        <button className="btn btn-primary" onClick={() => setShowModal(true)}> Add Question</button>
+
                     </div>
 
                     < div className='expandable-table'>
@@ -371,6 +558,63 @@ const Question = () => {
                     <>
                         <button className='btn btn-outline-secondary' onClick={handleCloseModal}>Cancel</button>
                         <button className='btn btn-primary' onClick={formik.handleSubmit}>Apply</button>
+                    </>
+                }
+            />
+            <ReusableModal
+                show={showSubjectModal}
+                onClose={handleCloseSubjectModal}
+                modalsize={'lg'}
+                title={'Add Subject'}
+                body={
+                    <div className='service-filter ps-2'>
+                        <AddFrom
+                            fields={fieldsSubject.filter(
+                                (fields) => !fields.showWhen || fields.showWhen(formikSubject.values)
+                            )}
+                            page_title="Add Employee"
+                            hide_cancle_btn={true}
+                            hide_submit_btn={true}
+                            formik={formikSubject}
+
+                        />
+
+
+                    </div>
+                }
+                footer={
+                    <>
+                        <button className='btn btn-outline-secondary' onClick={handleCloseSubjectModal}>Cancel</button>
+                        <button className='btn btn-primary' onClick={formikSubject.handleSubmit}>Apply</button>
+                    </>
+                }
+            />
+
+            <ReusableModal
+                show={showChaperModal}
+                onClose={() => setShowChapterModal(false)}
+                modalsize={'lg'}
+                title={'Add Chapter'}
+                body={
+                    <div className='service-filter ps-2'>
+                        <AddFrom
+                            fields={fieldsChapter.filter(
+                                (fields) => !fields.showWhen || fields.showWhen(formikChapter.values)
+                            )}
+                            page_title="Add Employee"
+                            hide_cancle_btn={true}
+                            hide_submit_btn={true}
+                            formik={formikChapter}
+
+                        />
+
+
+                    </div>
+                }
+                footer={
+                    <>
+                        <button className='btn btn-outline-secondary' onClick={() => setShowChapterModal(false)}>Cancel</button>
+                        <button className='btn btn-primary' onClick={formikChapter.handleSubmit}>Apply</button>
                     </>
                 }
             />
